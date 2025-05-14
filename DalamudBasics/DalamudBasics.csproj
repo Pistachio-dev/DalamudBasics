@@ -7,7 +7,8 @@
 		<FileVersion>1.0.0.0</FileVersion>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
         <Description>Interfaces, dependencies and basic utilities for Dalamud plugins, to make making new plugins a bit easier.</Description>
-		<PackageProjectUrl>https://github.com/Pistachio-dev/DalamudBasics</PackageProjectUrl>        
+		<PackageProjectUrl>https://github.com/Pistachio-dev/DalamudBasics</PackageProjectUrl>
+		<PackageId>DalamudBasics</PackageId>
     </PropertyGroup>
 
 	<PropertyGroup>
