@@ -2,6 +2,10 @@
     <PropertyGroup>
 		<Authors>Pistachio Herald</Authors>
 		<Version>1.0.0.0</Version>
+		<RootNamespace>DalamudBasics</RootNamespace>
+	    <AssemblyName>DalamudBasics</AssemblyName>
+		<FileVersion>1.0.0.0</FileVersion>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
         <Description>Interfaces, dependencies and basic utilities for Dalamud plugins, to make making new plugins a bit easier.</Description>
 		<PackageProjectUrl>https://github.com/Pistachio-dev/DalamudBasics</PackageProjectUrl>        
     </PropertyGroup>
