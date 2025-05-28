@@ -10,7 +10,11 @@
 		<PackageProjectUrl>https://github.com/Pistachio-dev/DalamudBasics</PackageProjectUrl>
 		<PackageId>DalamudBasics</PackageId>
     </PropertyGroup>
-
+	
+	<PropertyGroup>
+		<Use_DalamudPackager>false</Use_DalamudPackager>
+	</PropertyGroup>
+	
 	<PropertyGroup>
 		<TargetFramework>net9.0-windows</TargetFramework>
 		<Platforms>x64</Platforms>
