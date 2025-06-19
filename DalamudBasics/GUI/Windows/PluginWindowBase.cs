@@ -52,6 +52,10 @@ namespace DalamudBasics.GUI.Windows
             }
         }
 
-        protected abstract void SafeDraw();
+        protected virtual void SafeDraw()
+        {
+            // When making a window and not a component, implement this.
+            throw new NotImplementedException();
+        }
     }
 }
