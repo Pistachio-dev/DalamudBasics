@@ -50,11 +50,11 @@ namespace DalamudBasics.SaveGames
             }
         }
 
-        private T? LoadObjectFromFile<T>()
+        private T? LoadObjectFromFile<T>() where T: new()
         {
             if (!File.Exists(saveFileRoute))
             {
-                return default(T);
+                return new T();
             }
 
             string jsonText = File.ReadAllText(saveFileRoute);
@@ -69,7 +69,8 @@ namespace DalamudBasics.SaveGames
             {
                 string jsonText = JsonSerializer.Serialize(obj, new JsonSerializerOptions
                 {
-                    ReferenceHandler = ReferenceHandler.IgnoreCycles
+                    ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                    IncludeFields = true,                    
                 });
 
                 File.WriteAllText(saveFileRoute, jsonText);
