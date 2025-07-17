@@ -6,8 +6,9 @@ namespace DalamudBasics.SaveGames
     {
         DateTime? LastTimeSaved { get; }
 
-        T? LoadSave();
-
-        void WriteSave(T gameState);
+        T? LoadCharacterSave();
+        T? LoadSave(bool characterDepenent = false);
+        void WriteCharacterSave(T gameState);
+        void WriteSave(T gameState, bool characterDepenent = false);
     }
 }
