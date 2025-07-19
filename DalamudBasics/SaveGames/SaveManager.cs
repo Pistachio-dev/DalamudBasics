@@ -36,13 +36,35 @@ namespace DalamudBasics.SaveGames
             this.clientState = clientState;
         }
 
+        private T SaveInMemory;
+
+        public T GetCharacterSaveInMemory()
+        {
+            if (SaveInMemory == null)
+            {
+                return LoadCharacterSave();
+            }
+
+            return SaveInMemory;
+        }
+
         public T LoadCharacterSave()
         {
-            return LoadSave(true);
+            T save = LoadSave(true);
+            SaveInMemory = save;
+            return save;
+        }
+
+        public void WriteCharacterSave()
+        {
+            logService.Debug("Writing save state for current character");
+            var gameState = GetCharacterSaveInMemory();
+            WriteSave(gameState, true);
         }
 
         public void WriteCharacterSave(T gameState)
         {
+            logService.Debug("Writing save state for current character");
             WriteSave(gameState, true);
         }
 
