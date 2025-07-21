@@ -112,6 +112,7 @@ namespace DalamudBasics.SaveGames
                 });
 
                 var path = characterDependent ? GetCharacterRoute() : saveFileRoute;
+                logService.Info(jsonText);
 
                 File.WriteAllText(path, jsonText);
             }
