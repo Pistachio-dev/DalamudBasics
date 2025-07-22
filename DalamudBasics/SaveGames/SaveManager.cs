@@ -96,7 +96,10 @@ namespace DalamudBasics.SaveGames
             }
 
             string jsonText = File.ReadAllText(path);
-            T result = JsonSerializer.Deserialize<T>(jsonText) ?? throw new Exception($"Error loading file {path}.");
+            var options = new JsonSerializerOptions
+            {
+            };
+            T result = JsonSerializer.Deserialize<T>(jsonText, options) ?? throw new Exception($"Error loading file {path}.");
 
             return result;
         }
@@ -108,7 +111,6 @@ namespace DalamudBasics.SaveGames
                 string jsonText = JsonSerializer.Serialize(obj, new JsonSerializerOptions
                 {
                     ReferenceHandler = ReferenceHandler.IgnoreCycles,
-                    IncludeFields = true,
                 });
 
                 var path = characterDependent ? GetCharacterRoute() : saveFileRoute;
