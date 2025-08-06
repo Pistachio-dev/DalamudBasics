@@ -65,7 +65,7 @@ namespace DalamudBasics.Chat.Listener
             string messageAsString = message.ToString();
             if (messageAsString.Contains(pluginMessageMark, StringComparison.OrdinalIgnoreCase))
             {
-                logService.Info($"Message sent by the plugin ignored: " + messageAsString);
+                logService.Debug($"Message sent by the plugin ignored: " + messageAsString);
                 return;
             }
 
@@ -73,7 +73,7 @@ namespace DalamudBasics.Chat.Listener
 
             DateTime localTime = timeUtils.GetLocalDateTime();
 
-            logService.Info($"Message processed and triggering custom event: " + messageAsString);
+            logService.Debug($"Message processed and triggering custom event: " + messageAsString);
             OnChatMessage?.Invoke(type, senderFullName, messageAsString, localTime);
         }
 
