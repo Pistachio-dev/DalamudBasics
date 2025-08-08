@@ -1,4 +1,4 @@
-using ImGuiNET;
+using Dalamud.Bindings.ImGui;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -41,7 +41,7 @@ namespace DalamudBasics.GUI.Forms
         {
             T data = getData();
             string local = (string)GetVarViaReflection(propertyName, data);
-            if (ImGui.InputText(label, ref local, maxLength)
+            if (ImGui.InputText(label, ref local, (int)maxLength)
                 && local != (string)GetVarViaReflection(propertyName, data))
             {
                 string? validationMessage = validation != null ? validation(local) : null;
