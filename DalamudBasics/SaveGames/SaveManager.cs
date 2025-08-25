@@ -13,7 +13,11 @@ namespace DalamudBasics.SaveGames
         private readonly string saveFileRoute;
         private readonly ILogService logService;
         private readonly IClientState clientState;
+        private readonly IFramework framework;
         private DateTime? lastTimeSaved;
+
+        private T? saveInMemory;
+        private string? lastCharacterLoaded;
 
         public DateTime? LastTimeSaved
         {
@@ -29,54 +33,65 @@ namespace DalamudBasics.SaveGames
             private set { lastTimeSaved = value; }
         }
 
-        public SaveManager(string saveFileRoute, ILogService logService, IClientState clientState)
+        public SaveManager(string saveFileRoute, ILogService logService, IClientState clientState, IFramework framework)
         {
             this.saveFileRoute = saveFileRoute;
             this.logService = logService;
             this.clientState = clientState;
-        }
+            this.framework = framework;
+        }        
 
-        private T SaveInMemory;
-
-        public T GetCharacterSaveInMemory()
+        public T? GetCharacterSaveInMemory()
         {
-            if (SaveInMemory == null)
+            if (!IsLocalCharacterAvailable())
             {
-                return LoadCharacterSave();
+                return default;
+            }
+            var charName = GetCurrentCharFullName();
+
+            if (saveInMemory == null || charName != lastCharacterLoaded)
+            {
+                logService.Info($"Loading save for character {GetCurrentCharFullName()}");
+                return LoadCharacterSave(charName);
             }
 
-            return SaveInMemory;
-        }
-
-        public T LoadCharacterSave()
-        {
-            T save = LoadSave(true);
-            SaveInMemory = save;
-            return save;
+            return saveInMemory;
         }
 
         public void WriteCharacterSave()
         {
+            if (!IsLocalCharacterAvailable())
+            {
+                logService.Debug("Write save cancelled: no local character available");
+                return;
+            }
             logService.Debug("Writing save state for current character");
             var gameState = GetCharacterSaveInMemory();
+            if (gameState == null)
+            {
+                logService.Debug("Game state is null. Skipping save.");
+                return;
+            }
             WriteSave(gameState, true);
         }
 
-        public void WriteCharacterSave(T gameState)
-        {
-            logService.Debug("Writing save state for current character");
-            WriteSave(gameState, true);
+        private T LoadCharacterSave(string charName)
+        {            
+            T save = LoadSave(true);
+            lastCharacterLoaded = charName;
+            saveInMemory = save;
+            return save;
         }
 
-        public T LoadSave(bool characterDepenent = false)
+        private T LoadSave(bool characterDependent = false)
         {
-            return LoadObjectFromFile<T>(characterDepenent);
+            return LoadObjectFromFile<T>(characterDependent);
         }
 
-        public void WriteSave(T gameState, bool characterDepenent = false)
+        private void WriteSave(T gameState, bool characterDepenent = false)
         {
             try
-            {
+            {                
                 LastTimeSaved = DateTime.Now;
                 SaveObjectToFile(gameState, characterDepenent);
             }
@@ -86,20 +101,19 @@ namespace DalamudBasics.SaveGames
             }
         }
 
-
-        private T LoadObjectFromFile<T>(bool characterDependent = false) where T : new()
+        private K LoadObjectFromFile<K>(bool characterDependent = false) where K : new()
         {
             var path = characterDependent ? GetCharacterRoute() : saveFileRoute;
             if (!File.Exists(path))
             {
-                return new T();
+                return new K();
             }
 
             string jsonText = File.ReadAllText(path);
             var options = new JsonSerializerOptions
             {
             };
-            T result = JsonSerializer.Deserialize<T>(jsonText, options) ?? throw new Exception($"Error loading file {path}.");
+            K result = JsonSerializer.Deserialize<K>(jsonText, options) ?? throw new Exception($"Error loading file {path}.");
 
             return result;
         }
@@ -125,12 +139,22 @@ namespace DalamudBasics.SaveGames
 
         private string GetCharacterRoute()
         {
-            var charFullName = clientState.LocalPlayer?.GetFullName() ?? string.Empty;
+            var charFullName = GetCurrentCharFullName();
             int lastDotIndex = saveFileRoute.LastIndexOf(".");
             string pathWithoutExtension = saveFileRoute.Substring(0, lastDotIndex);
             string characterPath = $"{pathWithoutExtension}{charFullName}{Path.GetExtension(saveFileRoute)}";
 
             return characterPath;
+        }
+
+        private string GetCurrentCharFullName()
+        {
+            return clientState.LocalPlayer?.GetFullName() ?? string.Empty;
+        }
+
+        private bool IsLocalCharacterAvailable()
+        {
+            return clientState.LocalPlayer != null;
         }
     }
 }
