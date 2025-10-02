@@ -1,3 +1,4 @@
+using Dalamud.Plugin;
 using Dalamud.Plugin.Services;
 using DalamudBasics.Extensions;
 using DalamudBasics.Logging;
@@ -8,7 +9,7 @@ using System.Text.Json.Serialization;
 
 namespace DalamudBasics.SaveGames
 {
-    public class SaveManager<T> : ISaveManager<T> where T : new()
+    public class SaveManager<T> : IDisposable, ISaveManager<T> where T : new()
     {
         private readonly string saveFileRoute;
         private readonly ILogService logService;
@@ -33,13 +34,14 @@ namespace DalamudBasics.SaveGames
             private set { lastTimeSaved = value; }
         }
 
-        public SaveManager(string saveFileRoute, ILogService logService, IClientState clientState, IFramework framework)
+        public SaveManager(string fileName, ILogService logService, IClientState clientState, IFramework framework, IDalamudPluginInterface pi)
         {
-            this.saveFileRoute = saveFileRoute;
+            this.saveFileRoute = pi.GetPluginConfigDirectory() + Path.DirectorySeparatorChar + fileName;
             this.logService = logService;
             this.clientState = clientState;
             this.framework = framework;
-        }        
+            clientState.Login += LoadSaveOnLogin;
+        }
 
         public T? GetCharacterSaveInMemory()
         {
@@ -73,6 +75,14 @@ namespace DalamudBasics.SaveGames
                 return;
             }
             WriteSave(gameState, true);
+        }
+
+        private void LoadSaveOnLogin()
+        {
+            framework.RunOnFrameworkThread(() =>
+            {
+                GetCharacterSaveInMemory();
+            });
         }
 
         private T LoadCharacterSave(string charName)
@@ -155,6 +165,11 @@ namespace DalamudBasics.SaveGames
         private bool IsLocalCharacterAvailable()
         {
             return clientState.LocalPlayer != null;
+        }
+
+        public void Dispose()
+        {
+            clientState.Login -= LoadSaveOnLogin;
         }
     }
 }
