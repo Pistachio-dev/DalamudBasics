@@ -52,6 +52,10 @@ namespace DalamudBasics.Chat.Listener
 
         private void AttachToGameChat()
         {
+        }
+
+        private void AddPropagateToCustomEventListener()
+        {
             clientChatGui.AddOnChatUIListener(PropagateToCustomEvent);
         }
 
