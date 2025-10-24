@@ -9,6 +9,6 @@ namespace DalamudBasics.Chat.Listener
 
         void AddPreprocessedMessageListener(ChatMessageHandler listener);
 
-        void InitializeAndRun(string pluginMessageMark, params XivChatType[] channelsToListenTo);
+        void InitializeAndRun(string pluginMessageMark, bool attachPreprocessor, params XivChatType[] channelsToListenTo);
     }
 }

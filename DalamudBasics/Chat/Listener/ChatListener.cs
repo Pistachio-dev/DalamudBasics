@@ -38,11 +38,11 @@ namespace DalamudBasics.Chat.Listener
         /// Initializes and attaches to the game the chat listener.
         /// </summary>
         /// <param name="pluginMessageMark"></param>
-        public void InitializeAndRun(string pluginMessageMark, params XivChatType[] channelsToListenTo)
+        public void InitializeAndRun(string pluginMessageMark, bool attachPreprocessor, params XivChatType[] channelsToListenTo)
         {
             this.pluginMessageMark = pluginMessageMark;
             this.channelsToListenTo.AddRange(channelsToListenTo);
-            AttachToGameChat();
+            AttachToGameChat(attachPreprocessor);
         }
 
         public void AddPreprocessedMessageListener(ChatMessageHandler listener)
@@ -50,13 +50,12 @@ namespace DalamudBasics.Chat.Listener
             OnChatMessage += listener;
         }
 
-        private void AttachToGameChat()
+        private void AttachToGameChat(bool attachPreprocessor)
         {
-        }
-
-        private void AddPropagateToCustomEventListener()
-        {
-            clientChatGui.AddOnChatUIListener(PropagateToCustomEvent);
+            if (attachPreprocessor)
+            {
+                clientChatGui.AddOnChatUIListener(PropagateToCustomEvent);
+            }
         }
 
         private void PropagateToCustomEvent(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled)
