@@ -5,7 +5,7 @@ namespace DalamudBasics.Logging
 {
     public interface ILogService
     {
-        void AttachToGameLogicLoop(IFramework framework);
+        void AttachToGameLogicLoop();
 
         void Debug(string message);
 

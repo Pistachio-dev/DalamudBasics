@@ -12,17 +12,19 @@ namespace DalamudBasics.Logging
 
         private readonly IFileLogger fileLogger;
         private readonly IPluginLog pluginLog;
+        private readonly IFramework framework;
 
-        public void AttachToGameLogicLoop(IFramework framework)
+        public void AttachToGameLogicLoop()
         {
             framework.Update += Tick;
             initialized = true;
         }
 
-        public LogService(IFileLogger fileLogger, IPluginLog pluginLog)
+        public LogService(IFileLogger fileLogger, IPluginLog pluginLog, IFramework framework)
         {
             this.fileLogger = fileLogger;
             this.pluginLog = pluginLog;
+            this.framework = framework;
         }
 
         private void QueueEntry(string message, LogLevel logLevel, Exception? exception = null)
