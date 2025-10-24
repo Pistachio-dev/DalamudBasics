@@ -38,9 +38,14 @@ namespace DalamudBasics.Extensions
             return $"{player?.Name ?? "None"}@{world}";
         }
 
-        public static string WithoutWorldName(this string name)
+        public static string GetNameOnly(this string name)
         {
             return name.Split("@").First();
+        }
+
+        public static string GetWorld(this string name)
+        {
+            return name.Split("@").Last();
         }
 
         public static string GetFirstName(this string name)
