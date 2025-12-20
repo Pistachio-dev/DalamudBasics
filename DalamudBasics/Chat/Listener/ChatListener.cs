@@ -22,16 +22,18 @@ namespace DalamudBasics.Chat.Listener
         private readonly IClientState gameClient;
         private readonly ITimeUtils timeUtils;
         private readonly ILogService logService;
+        private readonly IObjectTable objectTable;
         private List<XivChatType> channelsToListenTo = new();
 
         private event ChatMessageHandler? OnChatMessage;
 
-        public ChatListener(IClientChatGui chatGui, IClientState gameClient, ITimeUtils timeUtils, ILogService logService)
+        public ChatListener(IClientChatGui chatGui, IClientState gameClient, ITimeUtils timeUtils, ILogService logService, IObjectTable objectTable)
         {
             this.clientChatGui = chatGui;
             this.gameClient = gameClient;
             this.timeUtils = timeUtils;
             this.logService = logService;
+            this.objectTable = objectTable;
         }
 
         /// <summary>
@@ -79,7 +81,7 @@ namespace DalamudBasics.Chat.Listener
 
         private string GetFullPlayerNameFromSenderData(SeString messageSender)
         {
-            return messageSender.GetSenderFullName(gameClient);
+            return messageSender.GetSenderFullName(objectTable);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace DalamudBasics.SaveGames
     {
         private readonly string saveFileRoute;
         private readonly ILogService logService;
-        private readonly IClientState clientState;
+        private readonly IObjectTable objectTable;
         private DateTime? lastTimeSaved;
 
         public DateTime? LastTimeSaved
@@ -29,11 +29,11 @@ namespace DalamudBasics.SaveGames
             private set { lastTimeSaved = value; }
         }
 
-        public SaveManager(string saveFileRoute, ILogService logService, IClientState clientState)
+        public SaveManager(string saveFileRoute, ILogService logService, IObjectTable objectTable)
         {
             this.saveFileRoute = saveFileRoute;
             this.logService = logService;
-            this.clientState = clientState;
+            this.objectTable = objectTable;
         }
 
         private T? SaveInMemory = default(T);
@@ -125,7 +125,7 @@ namespace DalamudBasics.SaveGames
 
         private string GetCharacterRoute()
         {
-            var charFullName = clientState.LocalPlayer?.GetFullName() ?? string.Empty;
+            var charFullName = objectTable.LocalPlayer?.GetFullName() ?? string.Empty;
             int lastDotIndex = saveFileRoute.LastIndexOf(".");
             string pathWithoutExtension = saveFileRoute.Substring(0, lastDotIndex);
             string characterPath = $"{pathWithoutExtension}{charFullName}{Path.GetExtension(saveFileRoute)}";
