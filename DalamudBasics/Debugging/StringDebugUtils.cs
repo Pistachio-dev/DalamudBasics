@@ -11,13 +11,13 @@ namespace DalamudBasics.Debugging
     {
         private readonly ILogService logService;
         private readonly IChatMessageInterpreter chatMessageInterpreter;
-        private readonly IClientState gameClient;
+        private readonly IObjectTable objectTable;
 
-        public StringDebugUtils(ILogService logService, IChatMessageInterpreter chatMessageInterpreter, IClientState gameClient)
+        public StringDebugUtils(ILogService logService, IChatMessageInterpreter chatMessageInterpreter, IObjectTable objectTable)
         {
             this.logService = logService;
             this.chatMessageInterpreter = chatMessageInterpreter;
-            this.gameClient = gameClient;
+            this.objectTable = objectTable;
         }
 
         public void DumpSeString(SeString s)
@@ -43,7 +43,7 @@ namespace DalamudBasics.Debugging
         {
             logService.Info("------------------------------------------------------------------------------------------------------------");
             logService.Info($"Type: {type} Timestamp: {timestamp} IsHandled: {isHandled}");
-            logService.Info("Sender as interpreted: " + sender.GetSenderFullName(gameClient));
+            logService.Info("Sender as interpreted: " + sender.GetSenderFullName(objectTable));
             logService.Info("Sender SeString dump---------------------------");
             DumpSeString(sender);
             logService.Info("Message SeString dump---------------------------");
