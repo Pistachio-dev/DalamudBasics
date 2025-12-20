@@ -33,12 +33,7 @@ namespace DalamudBasics.Logging
                 return;
             }
 
-            queuedLogEntries.Enqueue(new LogEntryParam
-            {
-                message = message,
-                logLevel = logLevel,
-                ex = exception
-            });
+            queuedLogEntries.Enqueue(new LogEntryParam(message, logLevel, exception));
         }
 
         public void Debug(string message)
@@ -99,6 +94,12 @@ namespace DalamudBasics.Logging
 
         private class LogEntryParam
         {
+            public LogEntryParam(string message, LogLevel logLevel, Exception? ex = null)
+            {
+                this.message = message;
+                this.logLevel = logLevel;
+                this.ex = ex;
+            }
             public string message;
             public LogLevel logLevel;
             public Exception? ex;

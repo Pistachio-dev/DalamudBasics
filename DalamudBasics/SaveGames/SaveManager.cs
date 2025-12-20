@@ -36,7 +36,7 @@ namespace DalamudBasics.SaveGames
             this.clientState = clientState;
         }
 
-        private T SaveInMemory;
+        private T? SaveInMemory = default(T);
 
         public T GetCharacterSaveInMemory()
         {
@@ -87,24 +87,24 @@ namespace DalamudBasics.SaveGames
         }
 
 
-        private T LoadObjectFromFile<T>(bool characterDependent = false) where T : new()
+        private K LoadObjectFromFile<K>(bool characterDependent = false) where K: new()
         {
             var path = characterDependent ? GetCharacterRoute() : saveFileRoute;
             if (!File.Exists(path))
             {
-                return new T();
+                return new K();
             }
 
             string jsonText = File.ReadAllText(path);
             var options = new JsonSerializerOptions
             {
             };
-            T result = JsonSerializer.Deserialize<T>(jsonText, options) ?? throw new Exception($"Error loading file {path}.");
+            K result = JsonSerializer.Deserialize<K>(jsonText, options) ?? throw new Exception($"Error loading file {path}.");
 
             return result;
         }
 
-        private void SaveObjectToFile<T>(T obj, bool characterDependent = false)
+        private void SaveObjectToFile<K>(K obj, bool characterDependent = false)
         {
             try
             {

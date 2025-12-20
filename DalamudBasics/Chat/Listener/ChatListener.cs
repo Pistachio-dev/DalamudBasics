@@ -17,14 +17,14 @@ namespace DalamudBasics.Chat.Listener
     /// </summary>
     internal class ChatListener : IChatListener
     {
-        private string pluginMessageMark;
+        private string pluginMessageMark = "[C]";
         private readonly IClientChatGui clientChatGui;
         private readonly IClientState gameClient;
         private readonly ITimeUtils timeUtils;
         private readonly ILogService logService;
         private List<XivChatType> channelsToListenTo = new();
 
-        private event ChatMessageHandler OnChatMessage;
+        private event ChatMessageHandler? OnChatMessage;
 
         public ChatListener(IClientChatGui chatGui, IClientState gameClient, ITimeUtils timeUtils, ILogService logService)
         {
