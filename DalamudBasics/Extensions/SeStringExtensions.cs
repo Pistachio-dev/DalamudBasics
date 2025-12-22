@@ -7,7 +7,7 @@ namespace DalamudBasics.Extensions
 {
     public static class SeStringExtensions
     {
-        public static string GetSenderFullName(this SeString chatMessageSender, IClientState gameClient)
+        public static string GetSenderFullName(this SeString chatMessageSender, IObjectTable objectTable)
         {
             Payload? playerPayload = chatMessageSender.Payloads.FirstOrDefault(p => p.Type == PayloadType.Player);
             string playerName = "Uninitialized";
@@ -26,7 +26,7 @@ namespace DalamudBasics.Extensions
             else
             {
                 // I'm going to assume this is always the mod runner, since it only applies to me when testing.
-                playerName = $"{gameClient.LocalPlayer?.GetFullName() ?? "Nobody"}";
+                playerName = $"{objectTable.LocalPlayer?.GetFullName() ?? "Nobody"}";
             }
 
             return playerName;

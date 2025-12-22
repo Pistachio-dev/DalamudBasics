@@ -225,14 +225,14 @@ namespace DalamudBasics.Chat.Output
 
                 lastMessageSent = payload;
 
-                var sanitizedText = ECommons.Automation.Chat.Instance.SanitiseText(payload.Message);
+                var sanitizedText = ECommons.Automation.Chat.SanitiseText(payload.Message);
                 string fullChatString = sanitizedText;
                 if (!messagePrefix.IsNullOrEmpty())
                 {
                     fullChatString = $"{messagePrefix} {sanitizedText}";
                 }
 
-                ECommons.Automation.Chat.Instance.SendMessage(fullChatString);
+                ECommons.Automation.Chat.SendMessage(fullChatString);
                 if (configuration.LogOutgoingChatOutput)
                 {
                     logService.Info("[Chat]" + fullChatString);

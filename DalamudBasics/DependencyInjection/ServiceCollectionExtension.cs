@@ -68,6 +68,7 @@ namespace DalamudBasics.DependencyInjection
             AddDalamudService<IGameGui>(services, pi);
             AddDalamudService<IContextMenu>(services, pi);
             AddDalamudService<INotificationManager>(services, pi);
+            AddDalamudService<IPlayerState>(services, pi);
 
             return services;
         }

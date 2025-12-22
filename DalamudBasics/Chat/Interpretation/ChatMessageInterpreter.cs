@@ -11,11 +11,12 @@ namespace DalamudBasics.Chat.Interpretation
 {
     public class ChatMessageInterpreter : IChatMessageInterpreter
     {
-        public ChatMessageInterpreter(IClientState clientState, IClientChatGui chatGui, ILogService logService)
+        public ChatMessageInterpreter(IClientState clientState, IClientChatGui chatGui, ILogService logService, IObjectTable objectTable)
         {
             this.clientState = clientState;
             this.chatGui = chatGui;
             this.logService = logService;
+            this.objectTable = objectTable;
         }
 
         public static readonly Regex[] DiceRollRegex = [
@@ -26,6 +27,7 @@ namespace DalamudBasics.Chat.Interpretation
         private readonly IClientState clientState;
         private readonly IClientChatGui chatGui;
         private readonly ILogService logService;
+        private readonly IObjectTable objectTable;
 
         public bool TryParseDiceRoll(SeString message, out ChatDiceRoll chatDiceRoll)
         {
@@ -45,7 +47,7 @@ namespace DalamudBasics.Chat.Interpretation
                 return false;
             }
 
-            string rollerFullName = message.GetSenderFullName(clientState);
+            string rollerFullName = message.GetSenderFullName(objectTable);
             if (diceRollType == DiceRollType.Dice && strategy.TryParseDiceRoll(message, out chatDiceRoll, rollerFullName))
             {
                 return true;

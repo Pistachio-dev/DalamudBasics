@@ -13,6 +13,7 @@ namespace DalamudBasics.SaveGames
     {
         private readonly string saveFileRoute;
         private readonly ILogService logService;
+        private readonly IObjectTable objectTable;
         private readonly IClientState clientState;
         private readonly IFramework framework;
         private DateTime? lastTimeSaved;
@@ -34,13 +35,14 @@ namespace DalamudBasics.SaveGames
             private set { lastTimeSaved = value; }
         }
 
-        public SaveManager(string fileName, ILogService logService, IClientState clientState, IFramework framework, IDalamudPluginInterface pi)
+        public SaveManager(string fileName, ILogService logService, IClientState clientState, IFramework framework, IDalamudPluginInterface pi, IObjectTable objectTable)
         {
             this.saveFileRoute = pi.GetPluginConfigDirectory() + Path.DirectorySeparatorChar + fileName;
             this.logService = logService;
             this.clientState = clientState;
             this.framework = framework;
             clientState.Login += LoadSaveOnLogin;
+            this.objectTable = objectTable;
         }
 
         public T? GetCharacterSaveInMemory()
@@ -111,7 +113,8 @@ namespace DalamudBasics.SaveGames
             }
         }
 
-        private K LoadObjectFromFile<K>(bool characterDependent = false) where K : new()
+
+        private K LoadObjectFromFile<K>(bool characterDependent = false) where K: new()
         {
             var path = characterDependent ? GetCharacterRoute() : saveFileRoute;
             if (!File.Exists(path))
@@ -128,7 +131,7 @@ namespace DalamudBasics.SaveGames
             return result;
         }
 
-        private void SaveObjectToFile<T>(T obj, bool characterDependent = false)
+        private void SaveObjectToFile<K>(K obj, bool characterDependent = false)
         {
             try
             {
@@ -159,12 +162,12 @@ namespace DalamudBasics.SaveGames
 
         private string GetCurrentCharFullName()
         {
-            return clientState.LocalPlayer?.GetFullName() ?? string.Empty;
+            return objectTable.LocalPlayer?.GetFullName() ?? string.Empty;
         }
 
         private bool IsLocalCharacterAvailable()
         {
-            return clientState.LocalPlayer != null;
+            return objectTable.LocalPlayer != null;
         }
 
         public void Dispose()
