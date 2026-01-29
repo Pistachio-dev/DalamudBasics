@@ -78,7 +78,7 @@ namespace DalamudBasics.Chat.Listener
 
             DateTime localTime = timeUtils.GetLocalDateTime();
 
-            logService.Debug($"Message processed and triggering custom event: " + messageAsString);
+            //logService.Debug($"Message processed and triggering custom event: " + messageAsString);
             OnChatMessage?.Invoke(type, senderFullName, messageAsString, localTime);
         }
 
