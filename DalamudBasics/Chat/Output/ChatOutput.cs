@@ -66,6 +66,15 @@ namespace DalamudBasics.Chat.Output
             EnqueueMessage(message, chatChannel, minSpacingBeforeInMs, targetFullName);
         }
 
+        public void WriteDiceCommand(int outOf = 999, bool isAllianceChat = false)
+        {
+            // Put the chat into /party or /alliance mode
+            var firstCommand = isAllianceChat ? "/a" : "/p";
+            WriteCommand($"{firstCommand}");
+            WriteCommand($"/dice {outOf}");
+
+        }
+
         private void EnqueueMessage(string message, XivChatType? chatChannel = null, int minSpacingBeforeInMs = 0, string? targetFullName = null)
         {
             if (!initialized)
