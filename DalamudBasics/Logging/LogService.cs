@@ -102,6 +102,7 @@ namespace DalamudBasics.Logging
                 this.logLevel = logLevel;
                 this.ex = ex;
             }
+
             public string message;
             public LogLevel logLevel;
             public Exception? ex;

@@ -32,7 +32,7 @@ namespace DalamudBasics.Debugging
                     ITextProvider textProvider = (ITextProvider)payload;
                     text = textProvider.Text;
                 }
-                
+
                 string output = $"Payload {counter} Type: {embeddedInfoType} Text: \"{text}\"";
                 logService.Info(output);
                 counter++;

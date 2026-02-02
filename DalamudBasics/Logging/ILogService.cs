@@ -1,4 +1,3 @@
-using Dalamud.Plugin.Services;
 using System;
 
 namespace DalamudBasics.Logging

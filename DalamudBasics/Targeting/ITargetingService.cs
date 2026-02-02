@@ -6,7 +6,9 @@ namespace DalamudBasics.Targeting
     public interface ITargetingService
     {
         void ClearTarget();
+
         IGameObject? GetTarget();
+
         string GetTargetName();
 
         bool IsTargetingAPlayer();

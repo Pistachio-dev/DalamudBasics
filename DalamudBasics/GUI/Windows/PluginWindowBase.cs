@@ -1,6 +1,6 @@
+using Dalamud.Bindings.ImGui;
 using Dalamud.Interface.Windowing;
 using DalamudBasics.Logging;
-using Dalamud.Bindings.ImGui;
 using System;
 
 namespace DalamudBasics.GUI.Windows

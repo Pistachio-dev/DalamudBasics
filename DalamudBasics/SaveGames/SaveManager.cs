@@ -88,7 +88,7 @@ namespace DalamudBasics.SaveGames
         }
 
         private T LoadCharacterSave(string charName)
-        {            
+        {
             T save = LoadSave(true);
             lastCharacterLoaded = charName;
             saveInMemory = save;
@@ -103,7 +103,7 @@ namespace DalamudBasics.SaveGames
         private void WriteSave(T gameState, bool characterDepenent = false)
         {
             try
-            {                
+            {
                 LastTimeSaved = DateTime.Now;
                 SaveObjectToFile(gameState, characterDepenent);
             }
@@ -113,8 +113,7 @@ namespace DalamudBasics.SaveGames
             }
         }
 
-
-        private K LoadObjectFromFile<K>(bool characterDependent = false) where K: new()
+        private K LoadObjectFromFile<K>(bool characterDependent = false) where K : new()
         {
             var path = characterDependent ? GetCharacterRoute() : saveFileRoute;
             if (!File.Exists(path))

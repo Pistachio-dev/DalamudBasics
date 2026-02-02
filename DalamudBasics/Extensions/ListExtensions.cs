@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,7 +13,6 @@ namespace DalamudBasics.Extensions
             {
                 sb.Append(value);
                 sb.Append("");
-                
             }
 
             string listed = sb.ToString();

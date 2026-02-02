@@ -72,7 +72,6 @@ namespace DalamudBasics.Chat.Output
             var firstCommand = isAllianceChat ? "/a" : "/p";
             WriteCommand($"{firstCommand}");
             WriteCommand($"/dice {outOf}");
-
         }
 
         private void EnqueueMessage(string message, XivChatType? chatChannel = null, int minSpacingBeforeInMs = 0, string? targetFullName = null)
