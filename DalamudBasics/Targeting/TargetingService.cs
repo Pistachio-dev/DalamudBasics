@@ -1,5 +1,6 @@
 using Dalamud.Game.ClientState.Objects;
 using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.Types;
 using Dalamud.Plugin.Services;
 using DalamudBasics.Chat.ClientOnlyDisplay;
 using DalamudBasics.Extensions;
@@ -27,6 +28,10 @@ namespace DalamudBasics.Targeting
             this.chatGui = chatGui;
         }
 
+        public IGameObject? GetTarget()
+        {
+            return dalamudTargetManager.Target;
+        }
         public void RemovePlayerReference(string playerFullName)
         {
             playerRefs.Remove(playerFullName);
