@@ -70,8 +70,8 @@ namespace DalamudBasics.Chat.Output
         {
             // Put the chat into /party or /alliance mode
             var firstCommand = isAllianceChat ? "/a" : "/p";
-            WriteCommand($"{firstCommand}");
-            WriteCommand($"/dice {outOf}");
+            WriteCommand($"{firstCommand}", 10);
+            WriteCommand($"/dice {outOf}", 1000);
         }
 
         private void EnqueueMessage(string message, XivChatType? chatChannel = null, int minSpacingBeforeInMs = 0, string? targetFullName = null)
