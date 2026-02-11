@@ -3,7 +3,7 @@ using System;
 
 namespace DalamudBasics.Chat.Listener
 {
-    public interface IChatListener
+    public interface IChatListener: IDisposable
     {
         public delegate void ChatMessageHandler(XivChatType type, string senderFullName, string message, DateTime receivedAt);
 

@@ -24,6 +24,7 @@ namespace DalamudBasics.Chat.Listener
         private readonly ILogService logService;
         private readonly IObjectTable objectTable;
         private List<XivChatType> channelsToListenTo = new();
+        private List<ChatMessageHandler> handlersRegistered = new();
 
         private event ChatMessageHandler? OnChatMessage;
 
@@ -50,6 +51,7 @@ namespace DalamudBasics.Chat.Listener
         public void AddPreprocessedMessageListener(ChatMessageHandler listener)
         {
             OnChatMessage += listener;
+            handlersRegistered.Add(listener);
         }
 
         private void AttachToGameChat(bool attachPreprocessor)
@@ -85,6 +87,14 @@ namespace DalamudBasics.Chat.Listener
         private string GetFullPlayerNameFromSenderData(SeString messageSender)
         {
             return messageSender.GetSenderFullName(objectTable);
+        }
+
+        public void Dispose()
+        {
+            foreach(var registeredHandler in handlersRegistered)
+            {
+                OnChatMessage -= registeredHandler;
+            }
         }
     }
 }
