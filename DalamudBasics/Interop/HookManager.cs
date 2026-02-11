@@ -78,7 +78,7 @@ namespace DalamudBasics.Interop
         private void DicePrintLogDetour(RaptureLogModule* module, ushort chatType, byte* playerName, void* unused, ushort worldId, ulong accountId, ulong contentId, ushort roll, ushort outOf, uint entityId, byte ident)
         {
             try
-            {
+            {                
                 var name = MemoryHelper.ReadStringNullTerminated((nint)playerName);
                 var world = dataManager.GetExcelSheet<World>()!.GetRow(worldId)!;
                 var fullName = $"{name}@{world.Name}";
