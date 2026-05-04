@@ -54,7 +54,7 @@ namespace DalamudBasics.Chat.ClientOnlyDisplay
             logService.Info($"[ClientOnlyChat_AsError]{message}");
         }
 
-        public void AddOnChatUIListener(OnMessageDelegate listener)
+        public void AddOnChatUIListener(OnHandleableChatMessageDelegate listener)
         {
             chatGui.ChatMessage += listener;
         }

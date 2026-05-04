@@ -1,4 +1,5 @@
 using Dalamud.Game;
+using Dalamud.Game.Chat;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
@@ -124,9 +125,11 @@ namespace DalamudBasics.Chat.Output
             initialized = true;
         }
 
-        public void MessageNotSentDetector(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled)
+        public void MessageNotSentDetector(IHandleableChatMessage messageRaw)
         {
-            if (type != XivChatType.ErrorMessage || message.Payloads.Count != 1 || message.Payloads[0].Type != PayloadType.RawText || sender.Payloads.Count != 0)
+            SeString message = messageRaw.Message;
+            XivChatType type = messageRaw.LogKind;
+            if (type != XivChatType.ErrorMessage || message.Payloads.Count != 1 || message.Payloads[0].Type != PayloadType.RawText || messageRaw.Sender.Payloads.Count != 0)
             {
                 return;
             }

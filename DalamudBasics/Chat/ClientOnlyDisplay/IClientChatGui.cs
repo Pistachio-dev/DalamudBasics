@@ -5,7 +5,7 @@ namespace DalamudBasics.Chat.ClientOnlyDisplay
 {
     public interface IClientChatGui
     {
-        void AddOnChatUIListener(IChatGui.OnMessageDelegate listener);
+        void AddOnChatUIListener(IChatGui.OnHandleableChatMessageDelegate listener);
 
         void Print(string message);
 

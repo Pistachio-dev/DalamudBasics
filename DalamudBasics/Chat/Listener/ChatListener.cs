@@ -1,3 +1,4 @@
+using Dalamud.Game.Chat;
 using Dalamud.Game.Text;
 using Dalamud.Game.Text.SeStringHandling;
 using Dalamud.Plugin.Services;
@@ -62,8 +63,10 @@ namespace DalamudBasics.Chat.Listener
             }
         }
 
-        private void PropagateToCustomEvent(XivChatType type, int timestamp, ref SeString sender, ref SeString message, ref bool isHandled)
+        private void PropagateToCustomEvent(IHandleableChatMessage messageRaw)
         {
+            SeString message = messageRaw.Message;
+            XivChatType type = messageRaw.LogKind;
             if (channelsToListenTo.Any() && !channelsToListenTo.Contains(type))
             {
                 return;
@@ -76,7 +79,7 @@ namespace DalamudBasics.Chat.Listener
                 return;
             }
 
-            string senderFullName = GetFullPlayerNameFromSenderData(sender);
+            string senderFullName = GetFullPlayerNameFromSenderData(messageRaw.Sender);
 
             DateTime localTime = timeUtils.GetLocalDateTime();
 
