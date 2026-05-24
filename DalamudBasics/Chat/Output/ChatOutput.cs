@@ -71,7 +71,7 @@ namespace DalamudBasics.Chat.Output
         {
             if (configuration.DefaultOutputChatType is XivChatType.Say or XivChatType.Echo or XivChatType.Yell or XivChatType.Shout)
             {
-                WriteCommand($"/random {outOf}", 1200);
+                WriteCommand($"/random {outOf}", 2200);
                 return;
             }
             // Put the chat into /party or /alliance mode
